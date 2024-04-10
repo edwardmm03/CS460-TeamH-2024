@@ -5,15 +5,15 @@
 <h1>Please Select Your Role</h1>
 
 <div>
-    <button>Administrator</button>
+    <a href="{% url 'Administrator' %}" > <button>Administrator</button></a>
 </div>
 
 <div>
-    <button>Instructor</button>
+    <a href="{% url 'Instructor' %}" > <button>Instructor</button></a>
 </div>
 
 <div>
-    <a href="{% url 'Student' %}" > Student</a>
+    <a href="{% url 'Student' %}" > <button>Student</button></a>
 </div>
 
 </body>

@@ -6,6 +6,14 @@ def Users(request):
     template = loader.get_template('selectUser.html')
     return HttpResponse(template.render())
 
+def Administrator(request):
+    template = loader.get_template('Administrator.html')
+    return HttpResponse(template.render())
+
+def Instructor(request):
+    template = loader.get_template('Instructor.html')
+    return HttpResponse(template.render())
+
 def Student(request):
     template = loader.get_template('Student.html')
     return HttpResponse(template.render())
