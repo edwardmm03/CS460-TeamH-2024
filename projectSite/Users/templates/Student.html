@@ -7,12 +7,43 @@
 <form action="{% url 'StudentResults' %}" method="post">
 {% csrf_token %}
   <label for="department">Department</label>
-  <input type="text" id="department" name="department"><br><br>
+  <select id = "department" name = "department">
+    <option value = "AC">AC</option>
+    <option value = "AE">AE</option>
+    <option value = "BY">BY</option>
+    <option value = "CEE">CEE</option>
+    <option value = "CHE">CHE</option>
+    <option value = "COMM">COMM</option>
+    <option value = "CS">CS</option>
+    <option value = "CSE">CSE</option>
+    <option value = "DA">DA</option>
+    <option value = "ECE">ECE</option>
+    <option value = "EC">EC</option>
+    <option value = "EM">EM</option>
+    <option value = "ES">ES</option>
+    <option value = "HIST">HIST</option>
+    <option value = "HSS">HSS</option>
+    <option value = "IA">IA</option>
+    <option value = "LAW">LAW</option>
+    <option value = "MA">MA</option>
+    <option value = "ME">ME</option>
+    <option value = "MK">MK</option>
+    <option value = "OIS">OIS</option>
+    <option value = "PH">PH</option>
+    <option value = "PY">PY</option>
+    <option value = "SE">SE</option>
+  </select>
   <label for="year">Year</label>
-  <input type="text" id="year" name="year"><br><br>
-  <label for="semseter">Semester</label>
-  <input type="text" id="semester" name="semester"><br><br>
-    <input type="submit" value="Submit">
+  <select id = "year" name = "year">
+    <option value = "2019">2019</option>
+    <option value = "2020">2020</option>
+  </select>
+  <label for="semseter">Semester(Please select 01 for Fall and 02 for Spring)</label>
+  <select id = "semester" name = "semester">
+    <option value = "01">01</option>
+    <option value = "02">02</option>
+  </select>
+  <input type="submit" value="Submit">
 </form>
 
 </body>
