@@ -1,12 +1,20 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+<head>
+  <link rel ="stylesheet" href ="{% static 'student.css' %}">
+</head>
 <body>
 
 <h1>You are in the Student View</h1>
+<p>Please select the Department, Year, and Semester you would like to view a class list for.
+  <br>For semester, select 01 for Fall and 02 for Spring.
+</p>
 
+<div class = "form-container">
 <form action="{% url 'StudentResults' %}" method="post">
 {% csrf_token %}
-  <label for="department">Department</label>
+  <label for="department" class = "deptLabel">Department</label>
   <select id = "department" name = "department">
     <option value = "AC">AC</option>
     <option value = "AE">AE</option>
@@ -33,18 +41,18 @@
     <option value = "PY">PY</option>
     <option value = "SE">SE</option>
   </select>
-  <label for="year">Year</label>
+  <label for="year" class="yearLabel">Year</label>
   <select id = "year" name = "year">
     <option value = "2019">2019</option>
     <option value = "2020">2020</option>
   </select>
-  <label for="semseter">Semester(Please select 01 for Fall and 02 for Spring)</label>
+  <label for="semseter" class = "semLabel">Semester</label>
   <select id = "semester" name = "semester">
     <option value = "01">01</option>
     <option value = "02">02</option>
   </select>
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" class = "submitButton">
 </form>
-
+</div>
 </body>
 </html>
