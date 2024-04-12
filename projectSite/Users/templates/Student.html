@@ -4,5 +4,16 @@
 
 <h1>You are in the Student View</h1>
 
+<form action="{% url 'StudentResults' %}" method="post">
+{% csrf_token %}
+  <label for="department">Department</label>
+  <input type="text" id="department" name="department"><br><br>
+  <label for="year">Year</label>
+  <input type="text" id="year" name="year"><br><br>
+  <label for="semseter">Semester</label>
+  <input type="text" id="semester" name="semester"><br><br>
+    <input type="submit" value="Submit">
+</form>
+
 </body>
 </html>

@@ -16,4 +16,9 @@ def Instructor(request):
 
 def Student(request):
     template = loader.get_template('Student.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+def StudentResults(request):
+    template = loader.get_template('StudentResults.html')
     return HttpResponse(template.render())
