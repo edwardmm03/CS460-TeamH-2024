@@ -1,0 +1,40 @@
+body{
+    background-color: darkgreen;
+}
+
+h1{
+    text-align: center;
+    color: white;
+}
+
+.button-container{
+    display: flex;
+    margin: auto;
+    width: 37%;
+}
+
+.user{
+    background-color: goldenrod;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    width: 150px;
+}
+
+.user:hover{
+    background-color: yellow;
+}
+
+.user:active{
+    background-color: yellow;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+

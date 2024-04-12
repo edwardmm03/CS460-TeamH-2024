@@ -1,19 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel ="stylesheet" href ="{% static 'userstyle.css' %}">
+</head>
 <body>
 
 <h1>Please Select Your Role</h1>
 
-<div>
-    <a href="{% url 'Administrator' %}" > <button>Administrator</button></a>
-</div>
-
-<div>
-    <a href="{% url 'Instructor' %}" > <button>Instructor</button></a>
-</div>
-
-<div>
-    <a href="{% url 'Student' %}" > <button>Student</button></a>
+<div class="button-container ">
+    <a href="{% url 'Administrator' %}" > <button class = 'user'>Administrator</button></a>
+    <a href="{% url 'Instructor' %}" > <button class = 'user'>Instructor</button></a>
+    <a href="{% url 'Student' %}" > <button class = 'user'>Student</button></a>
 </div>
 
 </body>
