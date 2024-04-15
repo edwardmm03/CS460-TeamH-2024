@@ -1,10 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel ="stylesheet" href ="{% static 'admin.css' %}">
+</head>
 <body>
 
 <h1>You are in the Administrator View</h1>
 
-<div class = "form-container">
+<p>The form below will display the list of Instructors.
+  <br>Please select how you would like to sort the list based on by making a selection from the drop down menu.
+</p>
+
+<div class = "form-container1">
     <form action="{% url 'InstructorList' %}" method="post">
     {% csrf_token %}
       <label for="sort" class="sort">Sort By:</label>
@@ -17,11 +25,19 @@
     </form>
 </div>
 
-<div>
+<p>Press the button below to view each department and their salary metrics.</p>
+
+<div class = "button-container">
 <a href="{% url 'DeptSals' %}" > <button class = 'adminbutton'>View Department Salaries</button></a>
 </div>
 
-<div class = "form-container">
+<p>The form below will display the performace of an Instructor.
+  <br>Please enter the last name of the Instructor you would like to view.
+  <br>Also select the year and semester that you would like to view the Instructor's performace for.
+  <br> Select 01 for Fall and 02 for Spring in the Semester drop down.
+</p>
+
+<div class = "form-container2">
     <form action="{% url 'Performance' %}" method="post">
     {% csrf_token %}
       <label for = "profName" class = "nameLabel">Enter Instructor Last Name</label>
