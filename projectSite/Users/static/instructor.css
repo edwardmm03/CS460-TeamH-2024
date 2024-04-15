@@ -1,0 +1,54 @@
+body{
+    background-color: darkgreen;
+}
+
+h1{
+    text-align: center;
+    color: white;
+}
+
+p{
+    text-align: center;
+    color: white;
+}
+
+.form-container{
+    display: flex;
+    margin: auto;
+    width: 50%;
+}
+
+.submitButton{
+    background-color: goldenrod;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.submitButton:hover{
+    background-color: yellow;
+}
+
+.submitButton:active{
+    background-color: yellow;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.yearLabel{
+    color:white;
+}
+
+.semLabel{
+    color:white;
+}
+
+.nameLabel{
+    color:white;
+}

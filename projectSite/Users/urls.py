@@ -6,5 +6,7 @@ urlpatterns = [
     path('Administrator/', views.Administrator, name = 'Administrator'),
     path('Instructor/', views.Instructor, name = 'Instructor'),
     path('Student/', views.Student, name = 'Student'),
-    path('StudentResults/', views.StudentResults, name = 'StudentResults')
+    path('StudentResults/', views.StudentResults, name = 'StudentResults'),
+    path('CourseList/', views.CourseList, name = 'CourseList'),
+    path('StudentList/', views.StudentList, name = 'StudentList')
 ]

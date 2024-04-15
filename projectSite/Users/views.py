@@ -12,7 +12,8 @@ def Administrator(request):
 
 def Instructor(request):
     template = loader.get_template('Instructor.html')
-    return HttpResponse(template.render())
+    context = {}
+    return HttpResponse(template.render(context,request))
 
 def Student(request):
     template = loader.get_template('Student.html')
@@ -21,4 +22,12 @@ def Student(request):
 
 def StudentResults(request):
     template = loader.get_template('StudentResults.html')
+    return HttpResponse(template.render())
+
+def CourseList(request):
+    template = loader.get_template('CourseList.html')
+    return HttpResponse(template.render())
+
+def StudentList(request):
+    template = loader.get_template('StudentList.html')
     return HttpResponse(template.render())

@@ -1,8 +1,60 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel ="stylesheet" href ="{% static 'instructor.css' %}">
+</head>
 <body>
 
 <h1>You are in the Instructor View</h1>
+
+<p>This form will display a course list and the number of students enrolled in each course.
+    <br> Please enter your last name, the year, and semester you would like to see a course list for.
+    <br> For Fall semester select 01 and for Spring select 02.
+</p>
+
+<div class = "form-container">
+<form action="{% url 'CourseList' %}" method="post">
+{% csrf_token %}
+  <label for = "profName" class = "nameLabel">Enter Instructor Last Name</label>
+  <input type="text" id="profName" name="profName"><br><br>
+  <label for="year" class="yearLabel">Year</label>
+  <select id = "year" name = "year">
+    <option value = "2019">2019</option>
+    <option value = "2020">2020</option>
+  </select>
+  <label for="semseter" class = "semLabel">Semester</label>
+  <select id = "semester" name = "semester">
+    <option value = "01">01</option>
+    <option value = "02">02</option>
+  </select>
+  <input type="submit" value="Submit" class = "submitButton">
+</form>
+</div>
+
+<p>The form below will display a list of Students taking the selected Instructors courses in a given year and semester.
+   <br>Please enter your last name, the year, and semester you would like to see a Student List for.
+   <br>For Fall semester select 01 and for Spring select 02.
+</p>
+
+<div class = "form-container">
+    <form action="{% url 'StudentList' %}" method="post">
+    {% csrf_token %}
+      <label for = "profName" class = "nameLabel">Enter Instructor Last Name</label>
+      <input type="text" id="profName" name="profName"><br><br>
+      <label for="year" class="yearLabel">Year</label>
+      <select id = "year" name = "year">
+        <option value = "2019">2019</option>
+        <option value = "2020">2020</option>
+      </select>
+      <label for="semseter" class = "semLabel">Semester</label>
+      <select id = "semester" name = "semester">
+        <option value = "01">01</option>
+        <option value = "02">02</option>
+      </select>
+      <input type="submit" value="Submit" class = "submitButton">
+    </form>
+    </div>
 
 </body>
 </html>
