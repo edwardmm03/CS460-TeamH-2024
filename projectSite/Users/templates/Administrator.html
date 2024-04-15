@@ -4,5 +4,42 @@
 
 <h1>You are in the Administrator View</h1>
 
+<div class = "form-container">
+    <form action="{% url 'InstructorList' %}" method="post">
+    {% csrf_token %}
+      <label for="sort" class="sort">Sort By:</label>
+      <select id = "year" name = "year">
+        <option value = "Name">Name</option>
+        <option value = "Department">Department</option>
+        <option value = "Salary">Salary</option>
+      </select>
+      <input type="submit" value="Submit" class = "submitButton">
+    </form>
+</div>
+
+<div>
+<a href="{% url 'DeptSals' %}" > <button class = 'adminbutton'>View Department Salaries</button></a>
+</div>
+
+<div class = "form-container">
+    <form action="{% url 'Performance' %}" method="post">
+    {% csrf_token %}
+      <label for = "profName" class = "nameLabel">Enter Instructor Last Name</label>
+      <input type="text" id="profName" name="profName"><br><br>
+      <label for="year" class="yearLabel">Year</label>
+      <select id = "year" name = "year">
+        <option value = "2019">2019</option>
+        <option value = "2020">2020</option>
+      </select>
+      <label for="semseter" class = "semLabel">Semester</label>
+      <select id = "semester" name = "semester">
+        <option value = "01">01</option>
+        <option value = "02">02</option>
+      </select>
+      <input type="submit" value="Submit" class = "submitButton">
+    </form>
+    </div>
+
+
 </body>
 </html>
