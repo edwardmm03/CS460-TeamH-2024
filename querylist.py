@@ -15,25 +15,32 @@ mydb = mysql.connector.connect(
 mycursor = mydb.cursor()
 #print(mydb)
 
+
+#THESE COMMANDS ARE FOR ADDING PAPERS AND FUNDING TO THE DATABASE:
+#ALTER TABLE instructor ADD funding int;
+#SET SQL_SAFE_UPDATES = 0;
+#UPDATE instructor SET funding = 10000 * RAND() WHERE 1;
+#CREATE TABLE papers( title varchar(100), publishdate DATE, author varchar(100), PRIMARY KEY (title, author), FOREIGN KEY (author) REFERENCES instructor(name));
+#Cannot get papers to work for some reason, weird foreign key error?
+
+
 class Admin:
-   #All mysql commands are best guess without looking at the database because its not setup on this computer
    def __init__(self,id): 
       self.id = id
-   def roster(sort):
+   def roster(sort): #Good
       order = True
-      if sort != "name" or "dept" or "salary": #this line feels wrong, might cause errors might not we will find out
+      if sort != "name" or "dept" or "salary": 
          order = False
       if order:
-         command = "SELECT * FROM professor ORDER BY" + sort + ";"
+         command = "SELECT * FROM instructor ORDER BY" + sort + ";"
       else:
-         command = "SELECT * FROM professor;"
+         command = "SELECT * FROM instructor;"
       return command, "F1"
-   def salary():
-      command = ""#Need to figure out mysql command
+   def salary(): #Good
+      command = "SELECT dept_name, min(salary), max(salary), round(avg(salary),0), FROM instructor GROUP BY dept_name;"
       return command, "F2"
    def preformance(name,year,semester):
-      #Needs some sort of error checking? Might just be bundled in run function
-      command = "SELECT COUNT(section), COUNT(student), SUM(?), SUM(?) FROM professor WHERE name = " + name + ", year = " + year + ", semester = " + semester + ";" #WRONG STUPID IDIOT also add papers to database?
+      command = "SELECT count(teaches.court_id), count(takes.student_id) FROM "
       return command, "F3"
 class Professor:
    def __init__(self,id): 
@@ -61,8 +68,8 @@ def run(command,format):
              for professor in myresult:
               print(professor)
           case "F2":
-             for (min, max, avg) in myresult:
-              print(min, max, avg)
+             for (dept, min, max, avg) in myresult:
+              print(dept, min, max, avg)
           case "F3":
              for (ccount, scount, dtotal, ptotal) in myresult:
               print(ccount, scount, dtotal, ptotal)
