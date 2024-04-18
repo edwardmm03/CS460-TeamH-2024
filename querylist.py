@@ -39,16 +39,17 @@ class Admin:
    def salary(): #Good
       command = "SELECT dept_name, min(salary), max(salary), round(avg(salary),0), FROM instructor GROUP BY dept_name;"
       return command, "F2"
-   def preformance(name,year,semester):
-      command = "SELECT count(teaches.court_id), count(takes.student_id) FROM "
+   def preformance(name,year,semester): #Guh
+      command = "SELECT count(course_id) FROM teaches where year=2019 and semester=2 and teacher_id = (SELECT id FROM instructor WHERE name = 'Hou’) UNION" +
+      "SELECT count(student_id) FROM takes  where year=2019 and semester=2 and teacher_id = (SELECT id FROM instructor WHERE name = 'Hou’)"
       return command, "F3"
 class Professor:
    def __init__(self,id): 
       self.id = id
-   def teaching(semester):
-      command = "SELECT course, section, count(student) where semester = " + semester + "ORDER BY section;"
+   def teaching(semester):#Good but mysql might give an error with group me, if so run: SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+      command = "SELECT teaches.course_id,teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE takes.semester="+semester+" AND teacher_id="+id+";"
       return command, "F4"
-   def students(section, semester): #Does it need a filter to check if the professor taught it(mentioned in specification but not in a solid yes or no way)
+   def students(course, section, semester): 
       command = "SELECT student WHERE semester = " + semester + " AND section = " + section + ";"
       return command, "F5"
 class Student:
