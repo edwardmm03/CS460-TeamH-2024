@@ -20,8 +20,8 @@ mycursor = mydb.cursor()
 #ALTER TABLE instructor ADD funding int;
 #SET SQL_SAFE_UPDATES = 0;
 #UPDATE instructor SET funding = 10000 * RAND() WHERE 1;
-#CREATE TABLE papers( title varchar(100), publishdate DATE, author varchar(100), PRIMARY KEY (title, author), FOREIGN KEY (author) REFERENCES instructor(name));
-#Cannot get papers to work for some reason, weird foreign key error?
+#CREATE TABLE papers( title varchar(100), publishdate DATE, instructor_id varchar(5), PRIMARY KEY (title, author), FOREIGN KEY (instructor_id) REFERENCES instructor(id));
+
 
 
 class Admin:
@@ -39,9 +39,15 @@ class Admin:
    def salary(): #Good
       command = "SELECT dept_name, min(salary), max(salary), round(avg(salary),0), FROM instructor GROUP BY dept_name;"
       return command, "F2"
-   def performance(name,year,semester): #Guh
-      command = "SELECT count(course_id) FROM teaches where year=2019 and semester=2 and teacher_id = (SELECT id FROM instructor WHERE name = 'Hou’) UNION" +
-      "SELECT count(student_id) FROM takes  where year=2019 and semester=2 and teacher_id = (SELECT id FROM instructor WHERE name = 'Hou’)"
+   def performance(name,year,semester): #This took way too much time
+      command = """
+      SELECT T1.ccid, T2.csid, T3.funds, T4.cpapers FROM 
+      (SELECT COUNT(course_id) AS ccid FROM teaches WHERE year="""+year+""" AND semester="""+semester+""" AND teacher_id="""+id+""") AS T1, 
+      (SELECT COUNT(student_id) AS csid FROM takes WHERE year="""+year+""" AND semester="""+semester+""" 
+      AND course_id IN (SELECT course_id FROM teaches WHERE teacher_id="""+id+"""))AS T2,
+      (SELECT SUM(funding) AS funds FROM instructor WHERE id="""+id+""") AS T3,
+      (SELECT COUNT(title) AS cpapers FROM papers WHERE instructor_id="""+id+""") AS T4;
+      """ 
       return command, "F3"
 class Professor:
    def __init__(self,id): 
