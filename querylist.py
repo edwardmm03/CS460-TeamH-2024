@@ -39,7 +39,7 @@ class Admin:
    def salary(): #Good
       command = "SELECT dept_name, min(salary), max(salary), round(avg(salary),0), FROM instructor GROUP BY dept_name;"
       return command, "F2"
-   def preformance(name,year,semester): #Guh
+   def performance(name,year,semester): #Guh
       command = "SELECT count(course_id) FROM teaches where year=2019 and semester=2 and teacher_id = (SELECT id FROM instructor WHERE name = 'Hou’) UNION" +
       "SELECT count(student_id) FROM takes  where year=2019 and semester=2 and teacher_id = (SELECT id FROM instructor WHERE name = 'Hou’)"
       return command, "F3"
@@ -49,14 +49,14 @@ class Professor:
    def teaching(semester):#Good but mysql might give an error with group me, if so run: SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
       command = "SELECT teaches.course_id,teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE takes.semester="+semester+" AND teacher_id="+id+";"
       return command, "F4"
-   def students(course, section, semester): 
-      command = "SELECT student WHERE semester = " + semester + " AND section = " + section + ";"
+   def students(course, section, semester): #Good, weird 2nd select to check if course is taught by the professor might be easier to implement something in frontend to show prof what their courses are.
+      command = "SELECT student_id FROM takes WHERE course_id="+course+" semester="+semester+" AND section="+section+" AND course_id IN(SELECT course_id FROM teaches WHERE teacher_id="+id+" );"
       return command, "F5"
 class Student:
   def __init__(self,id): 
       self.id = id
-  def findcourse(dept,year,semester):
-     command = "SELECT course WHERE dept = " + dept + " AND year = " + year + " AND semester = " + semester + ";"
+  def findcourse(dept,year,semester): #Good
+     command = "SELECT course_id, sec_id FROM(SELECT course_id, sec_id FROM teaches WHERE year="+year+" AND semester="+semester+" UNION SELECT course_id, null from course WHERE dept_name"+dept+") AS T WHERE sec_id IS NOT NULL;"
      return command, "F6"
 def run(command,format):
    mycursor.execute(command)
@@ -81,8 +81,8 @@ def run(command,format):
              for student in myresult:
               print(student)
           case "F6": 
-             for section in myresult:
-              print(section)
+             for (course,section) in myresult:
+              print(course,section)
        
 
 mycursor.close()
