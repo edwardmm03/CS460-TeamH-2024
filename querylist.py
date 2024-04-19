@@ -65,29 +65,34 @@ class Student:
      command = "SELECT course_id, sec_id FROM(SELECT course_id, sec_id FROM teaches WHERE year="+year+" AND semester="+semester+" UNION SELECT course_id, null from course WHERE dept_name"+dept+") AS T WHERE sec_id IS NOT NULL;"
      return command, "F6"
 def run(command,format):
-   mycursor.execute(command)
-   myresult = mycursor.fetchall()
-   if myresult == None:
+   try:
+      mycursor.execute(command)
+      myresult = mycursor.fetchall()
+   except Exception as e:
+      print("Run caused an error :(")
+   return myresult
+def print(result):
+   if result == None:
       "No results found"
    else:
        match format:
           case "F1":
-             for professor in myresult:
+             for professor in result:
               print(professor)
           case "F2":
-             for (dept, min, max, avg) in myresult:
+             for (dept, min, max, avg) in result:
               print(dept, min, max, avg)
           case "F3":
-             for (ccount, scount, dtotal, ptotal) in myresult:
+             for (ccount, scount, dtotal, ptotal) in result:
               print(ccount, scount, dtotal, ptotal)
           case "F4":
-             for (section, scount) in myresult:
+             for (section, scount) in result:
               print(section, scount)
           case "F5":
-             for student in myresult:
+             for student in result:
               print(student)
           case "F6": 
-             for (course,section) in myresult:
+             for (course,section) in result:
               print(course,section)
        
 
