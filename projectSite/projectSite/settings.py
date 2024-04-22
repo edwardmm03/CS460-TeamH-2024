@@ -76,8 +76,11 @@ WSGI_APPLICATION = 'projectSite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'university',
+        'USER' : 'root',
+        'PASSWORD': 'Huxley357!',
+        'HOST': '127.0.0.1',
     }
 }
 
