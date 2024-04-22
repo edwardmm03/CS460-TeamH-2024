@@ -57,14 +57,38 @@ def StudentResults(request):
     return HttpResponse(template.render(context,request))
 
 def CourseList(request):
+    name = request.POST.get('profName',0)
+    year = request.POST.get('year',0)
+    semester = request.POST.get('semester',0)
+
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute(f'''SELECT teaches.course_id,teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE {semester} = takes.semester AND \"{name}\" = id; ''')
+        data = dictfetchall(cursor)
+    finally:
+        cursor.close()
+    
+    print(data)
     template = loader.get_template('CourseList.html')
-    return HttpResponse(template.render())
+    context = {
+        'rows' : data
+    }
+
+    return HttpResponse(template.render(context,request))
 
 def StudentList(request):
+    name = request.POST.get('profName',0)
+    year = request.POST.get('year',0)
+    semester = request.POST.get('semester',0)
+
     template = loader.get_template('StudentList.html')
     return HttpResponse(template.render())
 
 def InstructorList(request):
+    sort = request.POST.get('sort',0)
+
+
     template = loader.get_template('InstructorList.html')
     return HttpResponse(template.render())
 
@@ -73,5 +97,9 @@ def DeptSals(request):
     return HttpResponse(template.render())
 
 def Performance(request):
+    name = request.POST.get('profName',0)
+    year = request.POST.get('year',0)
+    semester = request.POST.get('semester',0)
+
     template = loader.get_template('Performance.html')
     return HttpResponse(template.render())
