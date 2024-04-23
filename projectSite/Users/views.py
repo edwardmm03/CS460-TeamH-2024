@@ -60,18 +60,19 @@ def StudentResults(request):
     return HttpResponse(template.render(context,request))
 
 def CourseList(request):
-    name = request.POST.get('profName',0)
-    year = request.POST.get('year',0)
-    semester = request.POST.get('semester',0)
+   name = request.POST.get('profName',0)
+   year = request.POST.get('year',0)
+   semester = request.POST.get('semester',0)
 
-    cursor = connection.cursor()
+   cursor = connection.cursor()
 
-    try:
-        cursor.execute(f'''SELECT teaches.course_id,teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE {semester} = takes.semester AND \"{name}\" = id; ''')
-        data = dictfetchall(cursor)
-    finally:
-        cursor.close()
-    
+   try:
+    sql = """SELECT teaches.course_id,teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE takes.semester = %s takes.year = %s AND teacher_id = (SELECT id FROM instructor WHERE name = %s)"""
+    cursor.execute(sql, (semester, year, name))
+    data = dictfetchall(cursor)
+   finally:
+    cursor.close()
+
     print(data)
     template = loader.get_template('CourseList.html')
     context = {
@@ -91,11 +92,29 @@ def StudentList(request):
 def InstructorList(request):
     sort = request.POST.get('sort',0)
 
+    cursor = connection.cursor()
+    
+    try:
+        # megan's query just in case this doesn't work
+        # cursor.execute(f'''SELECT course_id, sec_id FROM(SELECT course_id, sec_id FROM teaches WHERE {year} = year AND {semester} = semester UNION SELECT course_id, null from course WHERE \"{dept}\" = dept_name) AS T WHERE sec_id IS NOT NULL;''')
+        sql = """SELECT * FROM instructor ORDER BY %s """ %sort
+        cursor.execute(sql)
+        data = dictfetchall(cursor)
+    finally:
+        cursor.close()
 
+    print(data)
     template = loader.get_template('InstructorList.html')
-    return HttpResponse(template.render())
+    context = {
+        'rows' : data
+    }
+
+    return HttpResponse(template.render(context,request))
+
+
 
 def DeptSals(request):
+
     template = loader.get_template('DeptSals.html')
     return HttpResponse(template.render())
 

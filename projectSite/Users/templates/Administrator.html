@@ -16,10 +16,10 @@
     <form action="{% url 'InstructorList' %}" method="post">
     {% csrf_token %}
       <label for="sort" class="sort">Sort By:</label>
-      <select id = "year" name = "year">
-        <option value = "Name">Name</option>
-        <option value = "Department">Department</option>
-        <option value = "Salary">Salary</option>
+      <select id = "sort" name = "sort">
+        <option value = "name">Name</option>
+        <option value = "dept_name">Department</option>
+        <option value = "salary">Salary</option>
       </select>
       <input type="submit" value="Submit" class = "submitButton">
     </form>
