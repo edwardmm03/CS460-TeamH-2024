@@ -3,6 +3,26 @@
 <body>
 
 <h1>You are in the Instructor Query Results Page for the Student List feature</h1>
+<table style="width:400px">
+    
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Course ID</th>
+            <th scope="col">Section ID</th>
+        </tr>
+    </thead>
+
+    <tbody>
+    {% for r in rows%}
+       <tr>
+           <th>{{r.name}}</th>
+           <th>{{r.course_id}}</th>
+           <th>{{r.sec_id}}</th>
+       </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 
 </body>

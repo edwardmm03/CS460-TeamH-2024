@@ -85,8 +85,23 @@ def StudentList(request):
     year = request.POST.get('year',0)
     semester = request.POST.get('semester',0)
 
+    cursor = connection.cursor()
+    
+    try:
+        sql = """SELECT DISTINCT student.name, takes.course_id, takes.sec_id FROM takes INNER JOIN student ON student.student_id = takes.student_id INNER JOIN teaches ON teaches.course_id = takes.course_id INNER JOIN instructor ON teaches.teacher_id = instructor.id WHERE takes.semester = %s AND takes.year = %s AND instructor.name = %s;"""
+        cursor.execute(sql, (semester, year, name))
+        data = dictfetchall(cursor)
+        
+    finally:
+        cursor.close()
+        
+    print(data)
     template = loader.get_template('StudentList.html')
-    return HttpResponse(template.render())
+    context = {
+        'rows' : data
+    }
+
+    return HttpResponse(template.render(context,request))
 
 def InstructorList(request):
     sort = request.POST.get('sort',0)
