@@ -16,17 +16,7 @@ def dictfetchall(cursor):
     return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
 
-def Users(request):
-    cursor = connection.cursor()
-
-    # Settings needed to be done to each user's database upon usage
-    #ALTER TABLE instructor ADD funding int;
-    #SET SQL_SAFE_UPDATES = 0;
-    #UPDATE instructor SET funding = 10000 * RAND() WHERE 1;
-    #CREATE TABLE papers( title varchar(100), publishdate DATE, instructor_id varchar(5), PRIMARY KEY (title, author), FOREIGN KEY (instructor_id) REFERENCES instructor(id));
-    
-    sql = "SET SQL_SAFE_UPDATES = 0;"
-    cursor.execute(sql)
+def Users(request):    
     template = loader.get_template('selectUser.html')
     return HttpResponse(template.render())
 
@@ -53,8 +43,6 @@ def StudentResults(request):
     cursor = connection.cursor()
 
     try:
-        # megan's query just in case this doesn't work
-        # cursor.execute(f'''SELECT course_id, sec_id FROM(SELECT course_id, sec_id FROM teaches WHERE {year} = year AND {semester} = semester UNION SELECT course_id, null from course WHERE \"{dept}\" = dept_name) AS T WHERE sec_id IS NOT NULL;''')
         sql = """SELECT course_id, sec_id FROM teaches WHERE year = %s AND semester = %s AND course_id IN (SELECT course_id FROM course WHERE dept_name = %s)"""
         cursor.execute(sql, (year, semester, dept))
         data = dictfetchall(cursor)
@@ -77,7 +65,6 @@ def CourseList(request):
     cursor = connection.cursor()
     
     try:
-        #sql = """SELECT any_value(teaches.course_id),teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE takes.semester = %s takes.year = %s AND teacher_id = (SELECT id FROM instructor WHERE name = %s)"""
         sql = """SELECT teaches.course_id,teaches.sec_id,count(student_id) AS studentCount FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id INNER JOIN instructor ON teaches.teacher_id = instructor.id WHERE takes.semester = %s AND takes.year = %s AND instructor.name = %s GROUP BY teaches.course_id, teaches.sec_id;"""
         cursor.execute(sql, (semester, year, name))
         data = dictfetchall(cursor)
