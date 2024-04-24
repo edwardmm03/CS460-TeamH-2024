@@ -17,6 +17,16 @@ def dictfetchall(cursor):
 
 
 def Users(request):
+    cursor = connection.cursor()
+
+    # Settings needed to be done to each user's database upon usage
+    #ALTER TABLE instructor ADD funding int;
+    #SET SQL_SAFE_UPDATES = 0;
+    #UPDATE instructor SET funding = 10000 * RAND() WHERE 1;
+    #CREATE TABLE papers( title varchar(100), publishdate DATE, instructor_id varchar(5), PRIMARY KEY (title, author), FOREIGN KEY (instructor_id) REFERENCES instructor(id));
+    
+    sql = "SET SQL_SAFE_UPDATES = 0;"
+    cursor.execute(sql)
     template = loader.get_template('selectUser.html')
     return HttpResponse(template.render())
 
@@ -60,25 +70,27 @@ def StudentResults(request):
     return HttpResponse(template.render(context,request))
 
 def CourseList(request):
-   name = request.POST.get('profName',0)
-   year = request.POST.get('year',0)
-   semester = request.POST.get('semester',0)
-
-   cursor = connection.cursor()
-
-   try:
-    sql = """SELECT teaches.course_id,teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE takes.semester = %s takes.year = %s AND teacher_id = (SELECT id FROM instructor WHERE name = %s)"""
-    cursor.execute(sql, (semester, year, name))
-    data = dictfetchall(cursor)
-   finally:
-    cursor.close()
-
+    name = request.POST.get('profName',0)
+    year = request.POST.get('year',0)
+    semester = request.POST.get('semester',0)
+    
+    cursor = connection.cursor()
+    
+    try:
+        #sql = """SELECT any_value(teaches.course_id),teaches.sec_id,count(student_id) FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id WHERE takes.semester = %s takes.year = %s AND teacher_id = (SELECT id FROM instructor WHERE name = %s)"""
+        sql = """SELECT teaches.course_id,teaches.sec_id,count(student_id) AS studentCount FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id INNER JOIN instructor ON teaches.teacher_id = instructor.id WHERE takes.semester = %s AND takes.year = %s AND instructor.name = %s GROUP BY teaches.course_id, teaches.sec_id;"""
+        cursor.execute(sql, (semester, year, name))
+        data = dictfetchall(cursor)
+        
+    finally:
+        cursor.close()
+        
     print(data)
     template = loader.get_template('CourseList.html')
     context = {
         'rows' : data
     }
-
+    
     return HttpResponse(template.render(context,request))
 
 def StudentList(request):
