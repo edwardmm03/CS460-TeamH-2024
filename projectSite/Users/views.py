@@ -94,8 +94,6 @@ def InstructorList(request):
     cursor = connection.cursor()
     
     try:
-        # megan's query just in case this doesn't work
-        # cursor.execute(f'''SELECT course_id, sec_id FROM(SELECT course_id, sec_id FROM teaches WHERE {year} = year AND {semester} = semester UNION SELECT course_id, null from course WHERE \"{dept}\" = dept_name) AS T WHERE sec_id IS NOT NULL;''')
         sql = """SELECT * FROM instructor ORDER BY %s """ %sort
         cursor.execute(sql)
         data = dictfetchall(cursor)
@@ -114,8 +112,21 @@ def InstructorList(request):
 
 def DeptSals(request):
 
+    cursor = connection.cursor()
+    
+    try:
+        sql = """SELECT dept_name, min(salary), max(salary), round(avg(salary),0) FROM instructor GROUP BY dept_name;"""
+        cursor.execute(sql)
+        data = dictfetchall(cursor)
+    finally:
+        cursor.close()
+
+    print(data)
     template = loader.get_template('DeptSals.html')
-    return HttpResponse(template.render())
+    context = {
+        'rows' : data
+    }
+    return HttpResponse(template.render(context,request))
 
 def Performance(request):
     name = request.POST.get('profName',0)

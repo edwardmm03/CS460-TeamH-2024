@@ -5,14 +5,29 @@
 <h1>You are in the Admin Query Results Page for the Instructor List feature</h1>
 
 <table style="width:400px">
+
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Department</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Funding</th>
+        </tr>
+    </thead>
+
+    <tbody>
     {% for r in rows%}
        <tr>
            <th>{{r.id}}</th>
            <th>{{r.name}}</th>
            <th>{{r.dept_name}}</th>
            <th>{{r.salary}}</th>
+           <th>{{r.funding}}</th>
        </tr>
     {% endfor %}
+    </tbody>
+
 </table>
 
 </body>

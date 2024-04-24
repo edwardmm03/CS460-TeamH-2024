@@ -4,6 +4,16 @@
 
 <h1>You are in the Instructor Query Results Page for the Course List feature</h1>
 <table style="width:400px">
+    
+    <thead>
+        <tr>
+            <th scope="col">Corse ID</th>
+            <th scope="col">Section ID</th>
+            <th scope="col">Student Count</th>
+        </tr>
+    </thead>
+
+    <tbody>
     {% for r in rows%}
        <tr>
            <th>{{r.course_id}}</th>
@@ -11,6 +21,7 @@
            <th>{{r.studentCount}}</th>
        </tr>
     {% endfor %}
+    </tbody>
 </table>
 
 </body>

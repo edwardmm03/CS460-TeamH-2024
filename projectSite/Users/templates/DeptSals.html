@@ -4,6 +4,30 @@
 
 <h1>You are in the Admin Query Results Page for the Department Salary feature</h1>
 
+<table style="width:400px">
+
+    <thead>
+        <tr>
+            <th scope="col">Department</th>
+            <th scope="col">Min Salary</th>
+            <th scope="col">Max Salary</th>
+            <th scope="col">Average Salary</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+    {% for r in rows%}
+       <tr>
+           <th>{{r.dept_name}}</th>
+           <th>{{r.salary}}</th>
+           <th>{{r.salary}}</th>
+           <th>{{r.salary}}</th>
+       </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 
 </body>
 </html>
