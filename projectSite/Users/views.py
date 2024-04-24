@@ -18,7 +18,8 @@ def dictfetchall(cursor):
 
 def Users(request):    
     template = loader.get_template('selectUser.html')
-    return HttpResponse(template.render())
+    context = {}
+    return HttpResponse(template.render(context,request))
 
 def Administrator(request):
     template = loader.get_template('Administrator.html')
