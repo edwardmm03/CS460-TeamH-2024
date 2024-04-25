@@ -4,7 +4,6 @@ from django.template import loader
 
 import mysql.connector
 from django.db import connection
-from .models import Course
 
 #Converts query results to a list of dictionary objects
 def dictfetchall(cursor):
