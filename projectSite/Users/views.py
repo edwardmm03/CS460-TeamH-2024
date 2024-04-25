@@ -130,7 +130,7 @@ def DeptSals(request):
     cursor = connection.cursor()
     
     try:
-        sql = """SELECT dept_name, min(salary), max(salary), round(avg(salary),0) FROM instructor GROUP BY dept_name;"""
+        sql = """SELECT dept_name, min(salary) AS min, max(salary) AS max, round(avg(salary),0) AS avg FROM instructor GROUP BY dept_name;"""
         cursor.execute(sql)
         data = dictfetchall(cursor)
     finally:
