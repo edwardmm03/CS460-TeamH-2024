@@ -109,7 +109,7 @@ def InstructorList(request):
     cursor = connection.cursor()
     
     try:
-        sql = """SELECT * FROM instructor ORDER BY %s """ %sort
+        sql = """SELECT instructor.*, SUM(funding.amount) AS funding FROM instructor LEFT JOIN funding ON instructor.id = funding.overseeingProf GROUP BY instructor.id, instructor.Name, instructor.dept_name, instructor.salary ORDER BY %s """ %sort
         cursor.execute(sql)
         data = dictfetchall(cursor)
     finally:
