@@ -151,8 +151,8 @@ def Performance(request):
     cursor = connection.cursor()
     
     try:
-        sql = """SELECT COUNT(teaches.sec_id) AS courseCount, COUNT(takes.student_id) AS studentCount, SUM(funding.amount) AS totalFunding, COUNT(papers.title) AS totalPapers FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id INNER JOIN student ON student.student_id=takes.student_id INNER JOIN instructor ON teaches.teacher_id = instructor.id INNER JOIN funding ON teaches.teacher_id = funding.overseeingProf INNER JOIN papers ON teaches.teacher_id = papers.author WHERE teaches.semester = %s AND teaches.year = %s AND instructor.name = %s"""
-        cursor.execute(sql, (semester, year, name))
+        sql = """SELECT T1.ccid AS courseCount, T2.csid AS studentCount, T3.funds as totalFunding, T4.cpapers AS totalPapers FROM (SELECT COUNT(course_id) AS ccid FROM teaches WHERE year = %s AND semester = %s AND teacher_id =  (SELECT id from instructor WHERE name = %s)) AS T1, (SELECT COUNT(student_id) AS csid FROM takes WHERE year = %s AND semester = %s AND course_id IN (SELECT course_id FROM teaches WHERE teacher_id =  (SELECT id from instructor WHERE name = %s))) AS T2,(SELECT SUM(amount) AS funds FROM funding WHERE overseeingProf = (SELECT id from instructor WHERE name = %s)) AS T3,(SELECT COUNT(title) AS cpapers FROM papers WHERE author = %s) AS T4;"""
+        cursor.execute(sql, (year, semester,name, year, semester, name, name, name))
         data = dictfetchall(cursor)
     finally:
         cursor.close()
