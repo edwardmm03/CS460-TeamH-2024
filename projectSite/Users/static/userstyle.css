@@ -8,12 +8,13 @@ h1{
 }
 
 .button-container{
-    display: flex;
+    text-align: center;
     margin: auto;
     width: 37%;
 }
 
 .user{
+    text-align: center;
     background-color: goldenrod;
     color: white;
     padding: 20px;
@@ -28,13 +29,17 @@ h1{
 }
 
 .user:hover{
+    text-align: center;
     background-color: yellow;
+    display:inline-block;
 }
 
 .user:active{
+    text-align: center;
     background-color: yellow;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
+    display:inline-block;
 }
 
 
