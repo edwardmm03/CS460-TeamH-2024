@@ -17,11 +17,24 @@ mycursor = mydb.cursor()
 
 
 #THESE COMMANDS ARE FOR ADDING PAPERS AND FUNDING TO THE DATABASE:
-#ALTER TABLE instructor ADD funding int;
-#SET SQL_SAFE_UPDATES = 0;
-#UPDATE instructor SET funding = 10000 * RAND() WHERE 1;
-#CREATE TABLE papers( title varchar(100), publishdate DATE, instructor_id varchar(5), PRIMARY KEY (title, author), FOREIGN KEY (instructor_id) REFERENCES instructor(id));
 
+#CREATE TABLE papers(
+#	title varchar(100),
+#	publishdate DATE,
+#	author varchar(100),
+#	PRIMARY KEY (title, author),
+#	FOREIGN KEY (author) REFERENCES instructor(id)
+#);
+
+#CREATE TABLE funding(
+#	projectName varchar(100),
+#	amount int,
+#	dept_name varchar(100),
+#	overseeingProf varchar(5),
+#	PRIMARY KEY (projectName, amount, overseeingProf),
+#	FOREIGN KEY (dept_name) REFERENCES department(dept_name),
+#	FOREIGN KEY (overseeingProf) REFERENCES instructor(id)
+#);
 
 
 class Admin:
