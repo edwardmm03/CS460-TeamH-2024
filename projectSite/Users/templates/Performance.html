@@ -7,7 +7,28 @@
 <body>
 
 <h1>You are in the Admin Query Results Page for the Performance feature</h1>
+<table style="width:400px">
+    
+    <thead>
+        <tr>
+            <th scope="col">Number of Courses</th>
+            <th scope="col">Number of Students</th>
+            <th scope="col">Total Funding</th>
+            <th scope="col">Total Papers</th>
+        </tr>
+    </thead>
 
+    <tbody>
+    {% for r in rows%}
+       <tr>
+           <th>{{r.courseCount}}</th>
+           <th>{{r.studentCount}}</th>
+           <th>{{r.totalFunding}}</th>
+           <th>{{r.totalPapers}}</th>
+       </tr>
+    {% endfor %}
+    </tbody>
+</table>
 
 </body>
 </html>

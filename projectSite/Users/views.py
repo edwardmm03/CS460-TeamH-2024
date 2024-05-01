@@ -148,5 +148,19 @@ def Performance(request):
     year = request.POST.get('year',0)
     semester = request.POST.get('semester',0)
 
+    cursor = connection.cursor()
+    
+    try:
+        sql = """SELECT COUNT(teaches.sec_id) AS courseCount, COUNT(takes.student_id) AS studentCount, SUM(funding.amount) AS totalFunding, COUNT(papers.title) AS totalPapers FROM teaches INNER JOIN takes ON takes.course_id = teaches.course_id INNER JOIN student ON student.student_id=takes.student_id INNER JOIN instructor ON teaches.teacher_id = instructor.id INNER JOIN funding ON teaches.teacher_id = funding.overseeingProf INNER JOIN papers ON teaches.teacher_id = papers.author WHERE teaches.semester = %s AND teaches.year = %s AND instructor.name = %s"""
+        cursor.execute(sql, (semester, year, name))
+        data = dictfetchall(cursor)
+    finally:
+        cursor.close()
+
+    print(data)
     template = loader.get_template('Performance.html')
-    return HttpResponse(template.render())
+    context = {
+        'rows' : data
+    }
+    return HttpResponse(template.render(context,request))
+
